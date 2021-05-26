@@ -9,7 +9,7 @@ import java.sql.*;
 //import java.util.*;
 
 public class userpass extends JFrame implements ActionListener{
-    JLabel l1,l2,l3,l4;
+    JLabel l1,l2,l3,l4,l5,l6;
     JTextField tf1;
     JPasswordField pf1,pf2;
     // JRadioButton r1,r2;
@@ -17,6 +17,7 @@ public class userpass extends JFrame implements ActionListener{
     // JComboBox<String> c1= new JComboBox<>();
     // JComboBox<String> c2= new JComboBox<>();
     // JComboBox<String> c3= new JComboBox<>();
+
 
     userpass(){
         setTitle("NEW USER ACCOUNT APPLICATION");
@@ -51,6 +52,16 @@ public class userpass extends JFrame implements ActionListener{
         b2.setFont(new Font("Raleway", Font.BOLD, 10));
         b2.setBackground(Color.BLACK);
         b2.setForeground(Color.WHITE);
+
+        l5 = new JLabel("Password Should Contain at least 1 Number");
+        l5.setFont(new Font("Raleway", Font.BOLD, 10));
+        l5.setForeground(Color.RED);
+        add(l5);
+
+        l6 = new JLabel("Please Confirm Password Correctly");
+        l6.setFont(new Font("Raleway", Font.BOLD, 10));
+        l6.setForeground(Color.RED);
+        add(l6);
 
         setLayout(null);
 
@@ -93,28 +104,63 @@ public class userpass extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent ae){
         String uid = tf1.getText();                // may be changed later to char[] b= pf2.getPassword();
-        String upass = pf1.getText();  
-        String ss = "User";         // may be deleted later along with changing ^ 
+        String upass = pf1.getText();
+        String cpass = pf2.getText();  
+        String ss = "User";                       // may be deleted later along with changing ^
+        int len = upass.length();
+        int count = 0;
+        String a = "Password Should Contain at least 1 Number";
+        String b = "Please Confirm Password Correctly";
+        String alert1 = a+Color.RED;
+        String alert2 = b+Color.RED;
+        
+        if(ae.getSource()==b1){
+        if(cpass.equals(upass)){
+            for(int i=0; i<len; i++){
+                if(Character.isLetter(upass.charAt(i)))
+                count++;
+            }
+            if(count == len){
+                
+                JOptionPane.showMessageDialog(null, l5, "Password Not Accepted", JOptionPane.WARNING_MESSAGE);
+                pf1.setText("");
+                pf2.setText("");
 
+            } else {
         try {
-            if(ae.getSource()==b1){
+            //if(ae.getSource()==b1){
                 conn c1 =  new conn();
-
+                
                 String q = "insert into login values('"+uid+"','"+upass+"','"+ss+"')";
                 c1.s.executeUpdate(q);
                 
                 JOptionPane.showMessageDialog(null, "Click NEXT To Proceed");
-            }else if(ae.getSource()==b2){
-                setVisible(false);
-                new userhub().setVisible(true);  
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            //TODO: handle exception
-            e.printStackTrace();
         }
+    } else{
+        JOptionPane.showMessageDialog(null, l6, "Error Confirming Password", JOptionPane.WARNING_MESSAGE);
+        pf2.setText("");
     }
+}
 
-    public static void main(String[] args){
-        new userpass().setVisible(true);
-    }
+        else if(ae.getSource()==b2){
+            setVisible(false);
+                new userhub().setVisible(true);
+        }
+            
+            // else if(ae.getSource()==b2){
+            //     setVisible(false);
+            //     new userhub().setVisible(true);  
+            // }
+        // } catch (Exception e) {
+        //     //TODO: handle exception
+        //     e.printStackTrace();
+        }
+    
+
+    // public static void main(String[] args){
+    //     new userpass().setVisible(true);
+    // }
 }
