@@ -9,7 +9,7 @@ import java.util.Arrays;
 //import java.util.*;
 
 public class retailerpass extends JFrame implements ActionListener{
-    JLabel l1,l2,l3,l4;
+    JLabel l1,l2,l3,l4,l5,l6;
     JTextField tf1;
     JPasswordField pf1,pf2;
     // JRadioButton r1,r2;
@@ -52,6 +52,16 @@ public class retailerpass extends JFrame implements ActionListener{
         b2.setBackground(Color.BLACK);
         b2.setForeground(Color.WHITE);
 
+        l5 = new JLabel("Password Should Contain at least 1 Number");
+        l5.setFont(new Font("Raleway", Font.BOLD, 10));
+        l5.setForeground(Color.RED);
+        add(l5);
+
+        l6 = new JLabel("Please Confirm Password Correctly");
+        l6.setFont(new Font("Raleway", Font.BOLD, 10));
+        l6.setForeground(Color.RED);
+        add(l6);
+
         setLayout(null);
 
         l1.setBounds(60,20,500,30);
@@ -93,28 +103,62 @@ public class retailerpass extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent ae){
         String rid = tf1.getText();                // may be changed later to char[] b= pf2.getPassword();
-        String rpass = pf1.getText();          // may be deleted later along with changing ^
-        String ss = "Retailer"; 
+        String rpass = pf1.getText();
+        String cpass = pf2.getText();  
+        String ss = "Retailer";                       // may be deleted later along with changing ^
+        int len = rpass.length();
+        int count = 0;
+        String a = "Password Should Contain at least 1 Number";
+        String b = "Please Confirm Password Correctly";
+        String alert1 = a+Color.RED;
+        String alert2 = b+Color.RED;
+        
+        if(ae.getSource()==b1){
+        if(cpass.equals(rpass)){
+            for(int i=0; i<len; i++){
+                if(Character.isLetter(rpass.charAt(i)))
+                count++;
+            }
+            if(count == len){
+                
+                JOptionPane.showMessageDialog(null, l5, "Password Not Accepted", JOptionPane.WARNING_MESSAGE);
+                pf1.setText("");
+                pf2.setText("");
 
+            } else {
         try {
-            if(ae.getSource()==b1){
+            //if(ae.getSource()==b1){
                 conn c1 =  new conn();
-
+                
                 String q = "insert into login values('"+rid+"','"+rpass+"','"+ss+"')";
                 c1.s.executeUpdate(q);
                 
                 JOptionPane.showMessageDialog(null, "Click NEXT To Proceed");
-            }else if(ae.getSource()==b2){
-                setVisible(false);
-                new retailerhub().setVisible(true);  
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            //TODO: handle exception
-            e.printStackTrace();
         }
+    } else{
+        JOptionPane.showMessageDialog(null, l6, "Error Confirming Password", JOptionPane.WARNING_MESSAGE);
+        pf2.setText("");
     }
+}
 
-    public static void main(String[] args){
-        new retailerpass().setVisible(true);
-    }
+        else if(ae.getSource()==b2){
+            setVisible(false);
+                new newretailer().setVisible(true);
+        }
+            
+            // else if(ae.getSource()==b2){
+            //     setVisible(false);
+            //     new userhub().setVisible(true);  
+            // }
+        // } catch (Exception e) {
+        //     //TODO: handle exception
+        //     e.printStackTrace();
+        }
+
+    // public static void main(String[] args){
+    //     new retailerpass().setVisible(true);
+    // }
 }
