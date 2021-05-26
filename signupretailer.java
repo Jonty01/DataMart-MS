@@ -1,253 +1,107 @@
 package DataM;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+//import java.util.Arrays;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
-//import com.toedter.calendar.JDateChooser;
-//import java.util.*;
 
-public class signupretailer extends JFrame implements ActionListener{
-    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13;
-    JTextField tf1,tf2,tf3,tf4,tf5,tf6;
-    JRadioButton r1,r2;
-    JButton b;
-    JComboBox<String> c1= new JComboBox<>();
-    JComboBox<String> c2= new JComboBox<>();
-    JComboBox<String> c3= new JComboBox<>();
-    JComboBox<String> c4= new JComboBox<>();
-    JComboBox<String> c5= new JComboBox<>();
+import com.mysql.cj.protocol.Resultset;
 
-    signupretailer(){
-        setTitle("NEW RETAILER ACCOUNT APPLICATION");
+public class retailerhub extends JFrame implements ActionListener{
+    JLabel l1,l2,l3,l4,l5;
+    JTextField tf1,tf2;
+    JButton b1,b2,b3;
 
-        l1 = new JLabel("PLEASE PROVIDE ESSENTIAL DETAILS");
-        l1.setFont(new Font("Raleway", Font.BOLD, 30));
+    retailerhub(){
+        setTitle("Welcome Retailer!");
 
-        l2 = new JLabel("Name:");                           //textfield
-        l2.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l3 = new JLabel("ph no:");                          //textfield 
-        l3.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l4 = new JLabel("Email:");                          //textfield
-        l4.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l5 = new JLabel("Gender");                          //radiob
-        l5.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l6 = new JLabel("Country:");
-        l6.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l7 = new JLabel("State:");
-        l7.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l8 = new JLabel("City");
-        l8.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l9 = new JLabel("Address:");                            //textfield
-        l9.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l10 = new JLabel("Pin");                                //textfield
-        l10.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l11 = new JLabel("Qualification");                                //textfield
-        l11.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l12 = new JLabel("Company Name");                                //textfield
-        l12.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        l13 = new JLabel("Product type");                                //textfield
-        l13.setFont(new Font("Raleway", Font.BOLD, 20));
-
-        tf1 = new JTextField();
-        tf1.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        tf2 = new JTextField();
-        tf2.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        tf3 = new JTextField();
-        tf3.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        tf4 = new JTextField();
-        tf4.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        tf5 = new JTextField();
-        tf5.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        tf6 = new JTextField();
-        tf6.setFont(new Font("Raleway", Font.BOLD, 14));
-
-        r1 = new JRadioButton("Male");
-        r1.setFont(new Font("Raleway", Font.BOLD, 14));
-        r1.setBackground(Color.WHITE);
-        
-        r2 = new JRadioButton("Female");
-        r2.setFont(new Font("Raleway", Font.BOLD, 14));
-        r2.setBackground(Color.WHITE);
-
-        ButtonGroup groupgender = new ButtonGroup();
-        groupgender.add(r1);
-        groupgender.add(r2);
-
-        String[] country= {"Argentina", "Australia", "Austria" , "Afghanistan", "Brazil", "Bhutan", "Belgium", "China", "Canada", "Denmark", "Egypt", "France", "Germany", "Italy", "India", "Japan", "Switzerland"};
-        c1= new JComboBox<>(country);
-        c1.setBackground(Color.WHITE);
-
-        String[] state= {"Andhra", "Punjab", "Maharashtra", "Hariyana", "Telengana", "West Bengal"};
-        c2= new JComboBox<>(state);
-        c2.setBackground(Color.WHITE);
-
-        String[] city= {"Ahmedabad", "Bangalore", "Bhopal", "Chennai", "Delhi", "Hyderabad", "Kolkata", "Mumbai"};
-        c3= new JComboBox<>(city);
-        c3.setBackground(Color.WHITE);
-
-        String[] qualification= {"Undergraduate", "Graduate", "Student", "Businessman"};
-        c4= new JComboBox<>(qualification);
-        c4.setBackground(Color.WHITE);
-
-        String[] product_type= {"Grocery", "Medicine", "Electronic Gadget", "Cosmetics"};
-        c5= new JComboBox<>(product_type);
-        c5.setBackground(Color.WHITE);
-
-        b = new JButton("Next");
-        b.setFont(new Font("Raleway", Font.BOLD, 14));
-        b.setBackground(Color.BLACK);
-        b.setForeground(Color.WHITE);
-
-        setLayout(null);
-
-        l1.setBounds(140,20,600,40);
+        l1 = new JLabel("WELCOME TO DMART");
+        l1.setFont(new Font("Osward", Font.BOLD, 32));
+        l1.setBounds(175,40,450,40);
         add(l1);
 
-        l2.setBounds(100,100,200,30);
+        l2 = new JLabel("Enter the Product You Want to Update :");
+        l2.setFont(new Font("Raleway", Font.BOLD, 14));
+        l2.setBounds(80,100,400,40);
         add(l2);
 
-        tf1.setBounds(300,100,400,30);
+        tf1 = new JTextField(25);
+        tf1.setBounds(260,148,230,20);
+        tf1.setFont(new Font("Arial", Font.BOLD, 12));
         add(tf1);
 
-        l3.setBounds(100,150,200,30);
-        add(l3);
-
-        tf2.setBounds(300,150,400,30);
-        add(tf2);
-
-        l4.setBounds(100,200,200,30);
+        l4 = new JLabel("If You Want to add a Different Product Then Click ADD PRODUCT -->");
+        l4.setFont(new Font("Raleway", Font.BOLD, 16));
+        l4.setBounds(80,250,550,40);
         add(l4);
 
-        tf3.setBounds(300,200,400,30);
-        add(tf3);
+        b1 = new JButton("OK");
+        b1.setBackground(Color.BLACK);
+        b1.setForeground(Color.WHITE);
 
-        l5.setBounds(100,250,200,30);
-        add(l5);
+        b2 = new JButton("ADD PRODUCT");
+        b2.setBackground(Color.BLACK);
+        b2.setForeground(Color.WHITE);
 
-        r1.setBounds(300,250,60,30);
-        add(r1);
+        setLayout(null);
         
-        r2.setBounds(450,250,90,30);
-        add(r2);
+        b1.setFont(new Font("Arial", Font.BOLD, 8));
+        b1.setBounds(550,148,100,20);
+        add(b1);
+        
 
-        l6.setBounds(100,300,200,30);
-        add(l6);
+        b2.setFont(new Font("Arial", Font.BOLD, 8));
+        b2.setBounds(550,320,100,20);
+        add(b2);
 
-        c1.setBounds(300,300,60,30);
-        add(c1);
-
-        l7.setBounds(100,350,200,30);
-        add(l7);
-
-        c2.setBounds(300,350,60,30);
-        add(c2);
-
-        l8.setBounds(100,400,200,30);
-        add(l8);
-
-        c3.setBounds(300,400,60,30);
-        add(c3);
-
-        l9.setBounds(100,450,200,30);
-        add(l9);
-
-        tf4.setBounds(300,450,400,30);
-        add(tf4);
-
-        l10.setBounds(100,500,400,30);
-        add(l10);
-
-        tf5.setBounds(300,500,400,30);
-        add(tf5);
-
-        l11.setBounds(100,550,400,30);
-        add(l11);
-
-        c4.setBounds(300,550,60,30);
-        add(c4);
-
-        l12.setBounds(100,600,400,30);
-        add(l12);
-
-        tf6.setBounds(300,600,400,30);
-        add(tf6);
-
-        l13.setBounds(100,650,400,30);
-        add(l13);
-
-        c5.setBounds(300,650,60,30);
-        add(c5);
-
-        b.setBounds(620,685,80,30);
-        add(b);
-
-        b.addActionListener(this);
+        b1.addActionListener(this);
+        b2.addActionListener(this);
 
         getContentPane().setBackground(Color.WHITE);
         
-        setSize(850,800);
-        setLocation(500,120);
+        setSize(800,480);
+        setLocation(400,100);
         setVisible(true);
-    } 
+    }
 
     public void actionPerformed(ActionEvent ae){
-        String name = tf1.getText();
-        String ph = tf2.getText();
-        String email = tf3.getText();
-        String gender = null;
-        if(r1.isSelected()){
-            gender = "Male";
-        } else if(r2.isSelected()){
-            gender = "Female";
-        }
-
-        String aa = (String)c1.getSelectedItem();
-        String bb = (String)c2.getSelectedItem();
-        String cc = (String)c3.getSelectedItem();
-
-        String addr = tf4.getText();
-        String pin = tf5.getText();
-
-        String qual = (String)c4.getSelectedItem();
-        String cname = tf6.getText();
-        String ptype = (String)c5.getSelectedItem();
-
+        String p = tf1.getText();
+        int qua=0;
         try {
-            if(tf1.getText().equals("") && tf2.getText().equals("") && tf4.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "Fill all the required fields");
-            } else{
-                conn c1 =  new conn();
-                String q1 = "insert into signupretailer values('"+name+"','"+ph+"','"+email+"','"+gender+"','"+aa+"','"+bb+"','"+cc+"','"+addr+"','"+pin+"','"+qual+"','"+cname+"','"+ptype+"')";
-                c1.s.executeUpdate(q1);
-                setVisible(false);
-                new retailerpass().setVisible(true);
+            if(ae.getSource()==b1){
+                conn c1 = new conn();
+                String q = "select quantity from products where item_name='"+p+"'";
+                ResultSet rs = c1.s.executeQuery(q);
                 
+                if(rs.next()){
+                    qua = rs.getInt("quantity");
+                    JOptionPane.showMessageDialog(null, "Available Stock : " + qua);
+                    int num = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter Number of Items You want to add: "));
+                    int newqua = num + qua;
+                    String q1 = "update products set quantity="+newqua+" where item_name='"+p+"'";
+                    c1.s.executeUpdate(q1);
+                    JOptionPane.showMessageDialog(null, "Avaialable Stock: " + newqua);
+                    setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "No Item Chosen");
+                }
             }
-        } catch (Exception e) {
+            else if(ae.getSource()==b2){
+                setVisible(false);
+                new newproduct().setVisible(true);
+            }
+           
+            } catch (Exception e) {
             //TODO: handle exception
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args){
-        new signupretailer().setVisible(true);
-    }
+    // public static void main(String[] args) {
+    //     new retailerhub().setVisible(true);
+    // }
 }
-
